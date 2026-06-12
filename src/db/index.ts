@@ -18,10 +18,22 @@ const initializeDB = async () => {
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
       `);
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS issues (
+          id SERIAL PRIMARY KEY,
+          title VARCHAR(150) NOT NULL,
+          description TEXT NOT NULL,
+          type VARCHAR(20) NOT NULL,
+          status VARCHAR(20) NOT NULL DEFAULT 'open',
+          reporter_id VARCHAR(10) NOT NULL,
+          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+        `);
     console.log("Database initialized successfully");
   } catch (error) {
     console.error("Error initializing database:", error);
   }
 };
 
-  export default initializeDB;
+export default initializeDB;

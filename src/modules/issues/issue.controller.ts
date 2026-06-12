@@ -1,0 +1,23 @@
+import type { Request, Response } from "express";
+import { issueServer } from "./issue.service";
+
+const createIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueServer.createIssueIntoDB(req.body, req.user.id);
+    res.status(201).json({
+      success: true,
+      message: "Issue Created  Successfull",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
+export const issuesController = {
+  createIssue,
+};
