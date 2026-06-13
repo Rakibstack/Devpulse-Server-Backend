@@ -18,6 +18,24 @@ const createIssue = async (req: Request, res: Response) => {
   }
 };
 
+const getAllIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueServer.getAllIssueIntoDB();
+    res.status(200).json({
+      success: true,
+      message: "Issues retrived  Successfull",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const issuesController = {
   createIssue,
+  getAllIssue,
 };
