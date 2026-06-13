@@ -35,7 +35,34 @@ const getAllIssue = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleIssue = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    const result = await issueServer.getSingleIssueFromDB(id as string);
+    // console.log(result);
+  
+    // if (result.rows.length === 0) {
+    //   return res.status(404).json({
+    //     success: false,
+    //     message: "Issue Not Found",
+    //   });
+    // }
+    res.status(200).json({
+      success: true,
+      message: "Issue Retrived Successfull",
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const issuesController = {
   createIssue,
   getAllIssue,
+  getSingleIssue,
 };
