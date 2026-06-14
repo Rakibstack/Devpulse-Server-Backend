@@ -8,9 +8,7 @@ Built with clean architecture, JWT authentication, role-based authorization, and
 
 ---
 
-##  Live Demo
-
-Backend API:
+##  Live Demo : https://devpulse-backend-seven.vercel.app
 
 ---
 

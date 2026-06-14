@@ -1,38 +1,23 @@
 import type { Request, Response } from "express";
 import { issueServer } from "./issue.service";
-import type { IUser } from "../user/user.interface";
+import { sendResponse } from "../../utility/response";
+import { sendErrorResponse } from "../../utility/errorResponse";
 
 const createIssue = async (req: Request, res: Response) => {
   try {
     const result = await issueServer.createIssueIntoDB(req.body, req.user.id);
-    res.status(201).json({
-      success: true,
-      message: "Issue Created  Successfull",
-      data: result,
-    });
+    sendResponse(res, 201, "Issue Created  Successfull", result);
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      error: error,
-    });
+    sendErrorResponse(res, 500, error.messag, error);
   }
 };
 
 const getAllIssue = async (req: Request, res: Response) => {
   try {
     const result = await issueServer.getAllIssueIntoDB();
-    res.status(200).json({
-      success: true,
-      message: "Issues retrived  Successfull",
-      data: result,
-    });
+    sendResponse(res, 200, "Issues retrived  Successfull", result);
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      error: error,
-    });
+    sendErrorResponse(res, 500, error.message, error);
   }
 };
 
@@ -48,17 +33,9 @@ const getSingleIssue = async (req: Request, res: Response) => {
     //     message: "Issue Not Found",
     //   });
     // }
-    res.status(200).json({
-      success: true,
-      message: "Issue Retrived Successfull",
-      data: result,
-    });
+    sendResponse(res, 200, "Issues retrived  Successfull", result);
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      error: error,
-    });
+  sendErrorResponse(res,500,error.message,error)
   }
 };
 
@@ -70,17 +47,9 @@ const updateSingleIssue = async (req: Request, res: Response) => {
       req.body,
       req.user,
     );
-    res.status(200).json({
-      success: true,
-      message: "Issue Update Successfull",
-      data: result,
-    });
+   sendResponse(res,200,"Issue Update Successfull",result)
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      error: error,
-    });
+   sendErrorResponse(res,500,error.message,error)
   }
 };
 
@@ -89,18 +58,9 @@ const deleteSingleUser = async (req: Request, res: Response) => {
     const result = await issueServer.deleteSingleUserFromDB(
       req.params.id as string,
     );
-     res.status(200).json({
-      success: true,
-      message: "Issue Delete Successfull",
-      data: result,
-    });
-
+   sendResponse(res,200,"Issue Delete Successfull",result)
   } catch (error: any) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-      error: error,
-    });
+   sendErrorResponse(res,500,error.message,error)
   }
 };
 
