@@ -1,4 +1,5 @@
 import { pool } from "../../db";
+import type { AuthUser } from "./authUser";
 import type { Issues } from "./issuesInterface";
 
 const createIssueIntoDB = async (payload: Issues, id: string) => {
