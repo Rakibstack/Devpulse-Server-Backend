@@ -45,32 +45,79 @@ const getAllIssueIntoDB = async () => {
   return finalIssue;
 };
 
-  const getSingleIssueFromDB = async (id: string) => {
-
-    const issue = await pool.query(`
+const getSingleIssueFromDB = async (id: string) => {
+  const issue = await pool.query(
+    `
       SELECT * FROM issues
       WHERE id = $1
-      `,[id])
+      `,
+    [id],
+  );
 
-      if(issue.rows.length === 0){
-        throw new Error('Issue Not Found!')
-      }
+  if (issue.rows.length === 0) {
+    throw new Error("Issue Not Found!");
+  }
 
-      const {reporter_id,...rest} = issue.rows[0]
+  const { reporter_id, ...rest } = issue.rows[0];
 
-      const user = await pool.query(`
+  const user = await pool.query(
+    `
         
         SELECT id,name,role FROM users
-        WHERE id= $1`,[reporter_id])
+        WHERE id= $1`,
+    [reporter_id],
+  );
 
-      return {
-        ...rest,
-        reporter: user.rows[0]
-      } ;
+  return {
+    ...rest,
+    reporter: user.rows[0],
+  };
+};
+
+const updateSingleIssueFromDB = async (id: string, payload: any, user: any) => {
+  const issueReselt = await pool.query(
+    `
+    SELECT * FROM issues 
+    WHERE id = $1
+    `,
+    [id],
+  );
+
+  if (issueReselt.rows.length === 0) {
+    throw new Error("Issue Not Found");
   }
+
+  const issue = issueReselt.rows[0];
+
+  if (user.role === "contributor") {
+    if (issue.reporter_id !== user.id) {
+      throw new Error("Forbidden Access!");
+    }
+    if (issue.status !== "open") {
+      throw new Error("Cannot update resolved issue");
+    }
+  }
+
+  const { title, description, type } = payload;
+
+  const updateIssue = await pool.query(
+    `
+      
+      UPDATE issues
+      SET title=$1,description = $2, type= $3,
+      updated_at = CURRENT_TIMESTAMP
+      WHERE id = $4
+      RETURNING *
+      `,
+    [title, description, type, id],
+  );
+
+  return updateIssue.rows[0];
+};
 
 export const issueServer = {
   createIssueIntoDB,
   getAllIssueIntoDB,
-  getSingleIssueFromDB
+  getSingleIssueFromDB,
+  updateSingleIssueFromDB,
 };

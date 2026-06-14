@@ -7,6 +7,7 @@ const route = Router()
 route.post('/',authMiddleware(),issuesController.createIssue)
 route.get('/',issuesController.getAllIssue)
 route.get('/:id',issuesController.getSingleIssue)
+route.patch('/:id',authMiddleware(),issuesController.updateSingleIssue)
 
 
 export const issuesRoute = route;

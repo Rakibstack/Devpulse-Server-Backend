@@ -25,7 +25,7 @@ const initializeDB = async () => {
           description TEXT NOT NULL,
           type VARCHAR(20) NOT NULL,
           status VARCHAR(20) NOT NULL DEFAULT 'open',
-          reporter_id VARCHAR(10) NOT NULL,
+          reporter_id INT NOT NULL,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
