@@ -8,6 +8,7 @@ route.post('/',authMiddleware(),issuesController.createIssue)
 route.get('/',issuesController.getAllIssue)
 route.get('/:id',issuesController.getSingleIssue)
 route.patch('/:id',authMiddleware(),issuesController.updateSingleIssue)
+route.delete('/:id',authMiddleware('maintainer'),issuesController.deleteSingleUser)
 
 
 export const issuesRoute = route;

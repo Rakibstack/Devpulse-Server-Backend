@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { issueServer } from "./issue.service";
+import type { IUser } from "../user/user.interface";
 
 const createIssue = async (req: Request, res: Response) => {
   try {
@@ -83,9 +84,30 @@ const updateSingleIssue = async (req: Request, res: Response) => {
   }
 };
 
+const deleteSingleUser = async (req: Request, res: Response) => {
+  try {
+    const result = await issueServer.deleteSingleUserFromDB(
+      req.params.id as string,
+    );
+     res.status(200).json({
+      success: true,
+      message: "Issue Delete Successfull",
+      data: result,
+    });
+
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+      error: error,
+    });
+  }
+};
+
 export const issuesController = {
   createIssue,
   getAllIssue,
   getSingleIssue,
   updateSingleIssue,
+  deleteSingleUser,
 };

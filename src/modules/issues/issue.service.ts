@@ -74,7 +74,11 @@ const getSingleIssueFromDB = async (id: string) => {
   };
 };
 
-const updateSingleIssueFromDB = async (id: string, payload: any, user: any) => {
+const updateSingleIssueFromDB = async (
+  id: string,
+  payload: Issues,
+  user: any,
+) => {
   const issueReselt = await pool.query(
     `
     SELECT * FROM issues 
@@ -98,21 +102,38 @@ const updateSingleIssueFromDB = async (id: string, payload: any, user: any) => {
     }
   }
 
-  const { title, description, type } = payload;
+  const { title, description, type, status } = payload;
+
+  let finalStatus = issue.status;
+
+  if (user.role === "maintainer" && status) {
+    finalStatus = status;
+  }
 
   const updateIssue = await pool.query(
     `
       
       UPDATE issues
       SET title=$1,description = $2, type= $3,
+      status = $4,
       updated_at = CURRENT_TIMESTAMP
-      WHERE id = $4
+      WHERE id = $5
       RETURNING *
       `,
-    [title, description, type, id],
+    [title, description, type, finalStatus, id],
   );
 
   return updateIssue.rows[0];
+};
+
+const deleteSingleUserFromDB = async (id: string) => {
+
+  const result = await pool.query(`
+    
+    DELETE FROM issues 
+    WHERE id = $1
+    `,[id])
+    return result.rows[0]
 };
 
 export const issueServer = {
@@ -120,4 +141,5 @@ export const issueServer = {
   getAllIssueIntoDB,
   getSingleIssueFromDB,
   updateSingleIssueFromDB,
+  deleteSingleUserFromDB,
 };
