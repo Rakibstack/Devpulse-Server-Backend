@@ -1,65 +1,72 @@
+# 🚀 DevPulse - Issue Tracker API
 
-#  DevPulse - Issue Tracker API
+A RESTful backend API for managing technical issues and feature requests with authentication, role-based authorization, and secure database operations.
 
-A backend REST API for managing internal technical issues and feature requests.  
-DevPulse allows users to register, authenticate, create issues, track progress, and manage issues based on user roles.
-
-Built with clean architecture, JWT authentication, role-based authorization, and PostgreSQL.
+Built with **TypeScript, Express.js, PostgreSQL, JWT Authentication, and RBAC**.
 
 ---
 
-##  Live Demo : https://devpulse-backend-seven.vercel.app
+## 🌐 Live Demo
+
+🔗 https://devpulse-backend-seven.vercel.app
 
 ---
 
-## 📌 Features
+## ✨ Features
 
-### Authentication
-- User registration
-- Secure password hashing using bcrypt
-- User login
+### 🔐 Authentication
+- User registration & login
+- Secure password hashing with bcrypt
 - JWT based authentication
-- Protected routes
+- Protected API routes
 
-### Authorization (RBAC)
-Two user roles:
+### 🛡 Role Based Authorization (RBAC)
 
-#### Contributor
+**Contributor**
 - Create issues
 - View issues
 - Update own issues
-- Cannot update closed/resolved issues
+- Cannot update non-open issues
 - Cannot change issue status
 
-#### Maintainer
-- View all issues
+**Maintainer**
+- Manage all issues
 - Update any issue
 - Change issue status
-- Manage issue lifecycle
+- Control issue workflow
 
 ---
 
 ## 🛠 Tech Stack
 
-### Backend
-
+**Backend**
 - Node.js
 - Express.js
 - TypeScript
 - PostgreSQL
 - JWT
 - bcrypt
-- Zod  Validation
+- Zod
 
-### Database
-
+**Database**
 - PostgreSQL
-- Raw SQL queries using `pg`
+- Raw SQL using `pg`
 
 ---
 
-👨‍💻 Author
+## 📁 Project Highlights
 
-Rakibul Hasan Rakib
+- Modular architecture
+- Service-controller pattern
+- Centralized error handling
+- Reusable response utilities
+- Type-safe development
+- Clean API structure
 
-Backend Developer | Full-Stack Developer
+---
+
+## 👨‍💻 Author
+
+**Rakibul Hasan Rakib**
+
+Backend Developer | Full Stack Developer
